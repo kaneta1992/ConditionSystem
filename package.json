@@ -1,0 +1,8 @@
+{
+    "name": "com.kaneta1992.conditionsystem",
+    "author": "kaneta1992",
+    "version": "1.0.0",
+    "displayName": "ConditionSystem",
+    "description": "A simple support package that monitors custom conditions and triggers events.",
+    "unity": "2022.3"
+}
