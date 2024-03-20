@@ -37,7 +37,7 @@ namespace ConditionSystem
         }
         
         
-        public void Dispose()
+        public virtual void Dispose()
         {
             parentConditionManager.UnregisterCondition(this);
         }

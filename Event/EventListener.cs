@@ -6,9 +6,11 @@ namespace ConditionSystem
 {
     public class EventListener : IConditionObserver, IDisposable
     {
-        private bool IsMet;
+        public event Action OnEnterMet;
+        public event Action OnStayMet;
+        public event Action OnExitMet;
 
-        private int MetFrameCount;
+        private bool IsMet;
 
         private ConditionMetNotifier conditionMetNotifier;
         
@@ -27,46 +29,26 @@ namespace ConditionSystem
 
         internal void EventUpdate()
         {
-            if (MetFrameCount == 0 && IsMet)
-            {
-                OnEnterMet();
-            }
-
-            if (MetFrameCount > 0 && IsMet)
-            {
-                OnStayMet();
-            }
-
-            if (MetFrameCount > 0 && !IsMet)
-            {
-                OnExitMet();
-                MetFrameCount = 0;
-            }
-
             if (IsMet)
             {
-                MetFrameCount++;
+                OnStayMet?.Invoke();
             }
-        }
-
-        protected virtual void OnEnterMet()
-        {
-            Debug.Log("OnEnterMet");
-        }
-
-        protected virtual void OnStayMet()
-        {
-            Debug.Log("OnStayMet");
-        }
-
-        protected virtual void OnExitMet()
-        {
-            Debug.Log("OnExitMet");
         }
 
         public void OnConditionMetChanged(ICondition condition)
         {
+            var lastIsMet = IsMet;
             IsMet = condition.IsMet;
+            
+            if (!lastIsMet && IsMet)
+            {
+                OnEnterMet?.Invoke();
+            }
+            
+            if (lastIsMet && !IsMet)
+            {
+                OnExitMet?.Invoke();
+            }
         }
 
         public void Dispose()
