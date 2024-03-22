@@ -10,7 +10,7 @@ namespace ConditionSystem
         public event Action OnStayMet;
         public event Action OnExitMet;
 
-        private bool IsMet;
+        public bool IsMet { get; private set; }
 
         private ConditionMetNotifier conditionMetNotifier;
         
